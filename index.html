@@ -96,9 +96,15 @@
     }
     @media (max-width: 520px) {
       .shell { width: min(100% - 20px, 1180px); padding-top: 22px; }
-      .inputs, .results { padding: 18px; } .metrics { grid-template-columns: 1fr 1fr; }
-      .metric:last-child { grid-column: 1 / -1; } .settle-grid { grid-template-columns: 1fr; }
+      .inputs, .results { padding: 18px; }
+      .metrics { grid-template-columns: 1fr 1fr; }
+      .metric:last-child { grid-column: 1 / -1; }
+      .settle-grid { grid-template-columns: 1fr; }
       .brand { align-items: flex-start; } .mark { width: 42px; height: 42px; }
+      label { flex-wrap: wrap; }
+      input, select { font-size: 16px; }
+      .rate-lock { flex-direction: column; }
+      .switchline { align-items: flex-start; }
     }
   </style>
 </head>
@@ -126,8 +132,8 @@
         </div>
 
         <div class="field">
-          <label for="years">Total loan tenure <span id="yearsOut">20 years</span></label>
-          <input id="years" type="range" min="1" max="20" step="1" value="20">
+          <label for="years">Total loan tenure <span id="yearsOut">10 years</span></label>
+          <input id="years" type="range" min="1" max="20" step="1" value="10">
         </div>
 
         <div class="rate-lock">
@@ -149,7 +155,7 @@
         </div>
 
         <div class="switchline">
-          <input id="early" type="checkbox" checked>
+          <input id="early" type="checkbox">
           <label for="early">Calculate early settlement</label>
         </div>
 
@@ -340,6 +346,8 @@
     }
 
     repopulateMonths();
+    els.years.value = 10;
+    els.early.checked = false;
     els.futurePreset.addEventListener('change', () => { els.futureRate.value = els.futurePreset.value; update(); });
     els.futureRate.addEventListener('input', () => { els.futurePreset.value = els.futureRate.value; update(); });
     [els.loan, els.years, els.early, els.settleYear, els.settleMonth].forEach(el => el.addEventListener('input', update));
